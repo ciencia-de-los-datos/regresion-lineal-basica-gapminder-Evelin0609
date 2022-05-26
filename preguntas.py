@@ -16,26 +16,24 @@ def pregunta_01():
     Complete el código presentado a continuación.
     """
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv", sep=",", thousands=None, decimal=".")
+    df = pd.read_csv("gm_2008_region.csv")
 
     # Asigne la columna "life" a `y` y la columna "fertility" a `X`
-    y = df['life']
-    X = df['fertility']
+    y = df['life'].values
+    X = df['fertility'].values
 
     # Imprima las dimensiones de `y`
     print(y.shape)
 
     # Imprima las dimensiones de `X`
-    print(x.shape)
+    print(X.shape)
 
     # Transforme `y` a un array de numpy usando reshape
+    y_reshaped = y.reshape(len(y), 1)
     # Trasforme `X` a un array de numpy usando reshape
-    y_reshaped = np.array(y)
-    X_reshaped = np.array(x)
-    y_reshaped = y.reshaped.reshape(y_reshaped.shape[0], 1)
-    x_reshaped = x_reshaped.reshape(x_reshaped.shape[0], 1)
+    x_reshaped = X.reshape(len(X), 1)
 
-      # Imprima las nuevas dimensiones de `y`
+    # Imprima las nuevas dimensiones de `y`
     print(y_reshaped.shape)
 
     # Imprima las nuevas dimensiones de `X`
@@ -49,24 +47,22 @@ def pregunta_02():
     """
 
     # Lea el archivo "`gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv",sep=",", thousands = None, decimal=".")
+    df = pd.read_csv("gm_2008_region.csv")
 
     # Imprima las dimensiones del DataFrame
     print(df.shape)
 
     # Imprima la correlación entre las columnas `life` y `fertility` con 4 decimales.
-    corr1 = np.corrcoef(x,y)
-    print(round(corr1[0, 1], 4))
+    print(df.life.corr(df.fertility).round(4))
 
     # Imprima la media de la columna `life` con 4 decimales.
-    print(round(y.mean(),4))
+    print(df.life.mean().round(4))
 
     # Imprima el tipo de dato de la columna `fertility`.
-    print(type(df['fertility']))
+    print(type(df.fertility))
 
     # Imprima la correlación entre las columnas `GDP` y `life` con 4 decimales.
-    corr2 = np.corrcoef(df['life'], df['GDP'])
-    print(round(corr2[0, 1], 4))
+    print(round(df.life.corr(df['GDP']), 4))
 
 
 def pregunta_03():
@@ -76,29 +72,26 @@ def pregunta_03():
     """
 
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv", sep=",", thousands = None, decimal=".")
+    df = pd.read_csv("gm_2008_region.csv")
 
     # Asigne a la variable los valores de la columna `fertility`
-    X_fertility = np.array(df['life']).reshape(-1,1)
+    X_fertility = df['fertility'].values.reshape(-1, 1)
 
     # Asigne a la variable los valores de la columna `life`
-    y_life = np.array(df['fertility']).reshape(-1,1)
+    y_life = df['life'].values.reshape(-1, 1)
 
     # Importe LinearRegression
     from sklearn.linear_model import LinearRegression
 
     # Cree una instancia del modelo de regresión lineal
-    reg = LinearRegression(
-        fit_intercept=True,
-        normalize=False,
-    )
+    reg = LinearRegression()
 
     # Cree El espacio de predicción. Esto es, use linspace para crear
     # un vector con valores entre el máximo y el mínimo de X_fertility
     prediction_space = np.linspace(
         X_fertility.min(),
         X_fertility.max(),
-    ).reshape(-1, 1)
+    ).reshape(-1,1)
 
     # Entrene el modelo usando X_fertility y y_life
     reg.fit(X_fertility, y_life)
@@ -123,13 +116,13 @@ def pregunta_04():
     from sklearn.metrics import mean_squared_error
 
     # Lea el archivo `gm_2008_region.csv` y asignelo al DataFrame `df`
-    df = pd.read_csv("gm_2008_region.csv", sep=",", thousands = None, decimal=".")
+    df = pd.read_csv("gm_2008_region.csv")
 
     # Asigne a la variable los valores de la columna `fertility`
-    X_fertility = np.array(df['fertility']).reshape(-1, 1)
+    X_fertility = df['fertility'].values.reshape(-1, 1)
 
     # Asigne a la variable los valores de la columna `life`
-    y_life = np.array(df['life']).reshape(-1, 1)
+    y_life = df['life'].values.reshape(-1, 1)
 
     # Divida los datos de entrenamiento y prueba. La semilla del generador de números
     # aleatorios es 53. El tamaño de la muestra de entrenamiento es del 80%
@@ -141,11 +134,8 @@ def pregunta_04():
     )
 
     # Cree una instancia del modelo de regresión lineal
-    LR = linearRegression(
-        fit_intercept=True,
-        normalize=False,
-    )
-
+    LR = linearRegression()
+    
     # Entrene el clasificador usando X_train y y_train
     LR.fit(X_train, y_train)
 
